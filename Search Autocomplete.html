@@ -92,17 +92,7 @@
           Grand & Petty Auto Crime SF Search
         </div>
         <div id="type-selector" class="pac-controls">
-          <input type="radio" name="type" id="changetype-all" checked="checked">
-          <label for="changetype-all">All</label>
-
-          <input type="radio" name="type" id="changetype-establishment">
-          <label for="changetype-establishment">Establishments</label>
-
-          <input type="radio" name="type" id="changetype-address">
-          <label for="changetype-address">Addresses</label>
-
-          <input type="radio" name="type" id="changetype-geocode">
-          <label for="changetype-geocode">Geocodes</label>
+        
         </div>
         <div id="strict-bounds-selector" class="pac-controls">
           <input type="checkbox" id="use-strict-bounds" value="">
@@ -263,20 +253,7 @@
           infowindow.open(map, marker);
         });
 
-        // Sets a listener on a radio button to change the filter type on Places
-        // Autocomplete.
-        function setupClickListener(id, types) {
-          var radioButton = document.getElementById(id);
-          radioButton.addEventListener('click', function() {
-		    console.log(types);
-            autocomplete.setTypes(types);
-          });
-        }
-
-        setupClickListener('changetype-all', []);
-        setupClickListener('changetype-address', ['address']);
-        setupClickListener('changetype-establishment', ['establishment']);
-        setupClickListener('changetype-geocode', ['geocode']);
+        
 
         document.getElementById('use-strict-bounds')
             .addEventListener('click', function() {
@@ -287,7 +264,7 @@
     </script>
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=My_keyss&libraries=places&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=mykey&libraries=places&callback=initMap"
         async defer></script>
   </body>
 </html>
