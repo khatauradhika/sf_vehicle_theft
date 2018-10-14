@@ -94,10 +94,7 @@
         <div id="type-selector" class="pac-controls">
         
         </div>
-        <div id="strict-bounds-selector" class="pac-controls">
-          <input type="checkbox" id="use-strict-bounds" value="">
-          <label for="use-strict-bounds">Strict Bounds</label>
-        </div>
+        
       </div>
       <div id="pac-container">
         <input id="pac-input" type="text"
@@ -143,7 +140,7 @@
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 37.773972, lng: -122.431297},
-          zoom: 17
+          zoom: 13
         });
         var card = document.getElementById('pac-card');
         var input = document.getElementById('pac-input');
@@ -252,14 +249,6 @@
           infowindowContent.children['place-address'].textContent = address;
           infowindow.open(map, marker);
         });
-
-        
-
-        document.getElementById('use-strict-bounds')
-            .addEventListener('click', function() {
-              console.log('Checkbox clicked! New state=' + this.checked);
-              autocomplete.setOptions({strictBounds: this.checked});
-            });
       }
     </script>
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
