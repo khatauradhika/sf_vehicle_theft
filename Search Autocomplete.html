@@ -89,7 +89,7 @@
     <div class="pac-card" id="pac-card">
       <div>
         <div id="title">
-          Search for Crime in an area in SF
+          Grand & Petty Auto Crime SF Search
         </div>
         <div id="type-selector" class="pac-controls">
           <input type="radio" name="type" id="changetype-all" checked="checked">
@@ -148,6 +148,7 @@
 	  }
 	  // markers stores all the active pins currently visible on the map.
 	  var markers = [];
+	  var markerCluster = null;
 	  
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -181,6 +182,9 @@
         });
 		
 		map.addListener('bounds_changed', function() {
+		  if (markerCluster != null) {
+		    markerCluster.removeMarkers(markers);
+		  }
 		  for (i = 0; i < markers.length; ++i) {
 		    markers[i].setMap(null);
 		  }
@@ -202,7 +206,7 @@
 		  }
 		  if (true) {
 		    // Adding a marker clusterer to manage the markers.
-            var markerCluster = new MarkerClusterer(
+            markerCluster = new MarkerClusterer(
 			  map,
 			  markers,
               {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
@@ -283,7 +287,7 @@
     </script>
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=MY_KEY&libraries=places&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=My_keyss&libraries=places&callback=initMap"
         async defer></script>
   </body>
 </html>
