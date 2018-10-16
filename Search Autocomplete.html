@@ -94,6 +94,20 @@
         font-weight: 500;
         padding: 6px 12px;
       }
+	  
+	  #legend {
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding: 10px;
+        margin: 10px;
+        border: 3px solid #000;
+      }
+      #legend h3 {
+        margin-top: 0;
+      }
+      #legend img {
+        vertical-align: middle;
+      }
     </style>
   </head>
   <body>
@@ -118,8 +132,52 @@
       <span id="place-name"  class="title"></span><br>
       <span id="place-address"></span>
     </div>
-
+    <div id="legend"><h3>Legend</h3></div>
     <script>
+	  function getBalloonSizeMultiplier(num_thefts) {
+       // Return log2(log2(num_thefts)). Use this method:
+       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log2
+       // and amake sure you never pass in a value to Math.log2() which is <= 0.
+       // If the result is going to be < 1.0 return 1.0
+  
+       if (num_thefts > 0) {
+         x = Math.log2(num_thefts);
+       } else { 
+         num_thefts = 1;
+         x = Math.log2(num_thefts);
+       }
+       if (x > 1) {
+         return Math.log2(x);
+       } else  {
+         return 1;
+       }
+       }
+       
+      function getIconPathForThefts(num_thefts) {
+       var uri = "http://chart.apis.google.com/chart?chst=d_map_spin&chld=";
+       var multiplier = getBalloonSizeMultiplier(num_thefts);
+   
+       multiplier = Math.trunc(multiplier * 100.0) / 100.0;
+       var color = 'FFFF42'; // FILL IN
+       var font_size = 13;
+       var font_face = 'b';
+  
+       // Set text to be the number of incidents if the number of incidents
+       // are <= 50, else make it say '50+' to mean more than 50 incidents.
+       var text = String(num_thefts); // FILL IN
+    
+       if (num_thefts > 50) {
+         text = '50+';
+       }
+    
+       var chld = String(multiplier) + "|0|"
+        + color + "|"
+        + font_size + "|"
+        + font_face + "|"
+        + text;
+      return uri + encodeURIComponent(chld);
+    }
+
 	  function pluralize(text, n) {
 	    // Returns text with the character 's' added at the end
 		// if n > 1 otherwise returns text.
@@ -151,7 +209,7 @@
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 37.773972, lng: -122.431297},
-          zoom: 13
+          zoom: 12
         });
         var card = document.getElementById('pac-card');
         var input = document.getElementById('pac-input');
@@ -197,7 +255,8 @@
 			    map: null,
 				position: point,
 				title: locations[i].title,
-				icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C69f3fe',
+				icon: //getIconPathForThefts(loc.title)
+				'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C69f3fe',
               });
 			  markers.push(m);
 		    }
@@ -260,11 +319,50 @@
           infowindowContent.children['place-address'].textContent = address;
           infowindow.open(map, marker);
         });
+		
+		var icons = {
+          Blue_Cluster: {
+            name: 'Less than 10 theft locations',
+            icon: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m1.png',
+			height: '36px',
+			width: '36px',
+          },
+          Yellow_Cluster: {
+            name: 'Between 10 &amp; 100 theft locations',
+            icon: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m2.png',
+			height: '36px',
+			width: '36px',
+          },
+		  Red_Cluster: {
+		    name:'More than 100 theft locations',
+		    icon: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m3.png',
+			height: '36px',
+			width: '36px',
+		  },
+          Blue_Pin: {
+            name: 'Location of theft',
+            icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C69f3fe',
+			height: '40px',
+			width: '28px',
+          }
+        };
+		var legend = document.getElementById('legend');
+        for (var key in icons) {
+          var type = icons[key];
+          var name = type.name;
+          var icon = type.icon;
+		  var height = type.height;
+		  var width = type.width;
+          var div = document.createElement('div');
+          div.innerHTML = '<img style="height:' + height + '; width: ' + width + ';" src="' + icon + '"> ' + name;
+          legend.appendChild(div);
+        }
+		map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
       }
     </script>
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=mykey&libraries=places&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcaKLIJVcSRTuu4hKMxYHfAERAC_e1dYg&libraries=places&callback=initMap"
         async defer></script>
   </body>
 </html>
