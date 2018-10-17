@@ -149,7 +149,7 @@
         for (var i = 0; i < locations.length; i++) {
           var loc = locations[i];
 		  var latLng = new google.maps.LatLng(loc.lat, loc.lng);
-          heatmapData.push(latLng);
+          heatmapData.push({location: latLng, weight: loc.num_crimes * 1.5});
         }
         heatmap = new google.maps.visualization.HeatmapLayer({
           data: heatmapData,
