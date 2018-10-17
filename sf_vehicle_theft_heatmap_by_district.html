@@ -169,10 +169,11 @@
         for (var i = 0; i < locations.length; i++) {
           var loc = locations[i];
 		  var latLng = new google.maps.LatLng(loc.lat, loc.lng);
+		  var point = {location: latLng, weight: loc.num_crimes * 1.5};
 		  if (loc.district == 2) {
-		    heatmapD2Data.push(latLng);
+		    heatmapD2Data.push(point);
 		  } else {
-            heatmapData.push(latLng);
+            heatmapData.push(point);
 	      }
         }
         heatmap = new google.maps.visualization.HeatmapLayer({
