@@ -66,6 +66,9 @@
       </div>
     </div>
     <div id="map"></div>
+    <script
+        src="./apikey.js">
+    </script>
     <script>
       var map;
 	  var marker = null;
@@ -159,9 +162,15 @@
 		changeGradient(heatmap);
 		is_visible = true;
       }
-    </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=APIKEY&libraries=visualization,places&callback=initMap">
+	  
+	  function add_script_tag() {
+	    var body = document.getElementsByTagName('body')[0];
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = "https://maps.googleapis.com/maps/api/js?key=" + APIKEY + "&libraries=visualization,places&callback=initMap";
+		body.appendChild(script);
+	  }
+	  add_script_tag();
     </script>
   </body>
 </html>
